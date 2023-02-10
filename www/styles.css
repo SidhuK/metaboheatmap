@@ -1,26 +1,61 @@
 /* import playfair display from google fonts */
 
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap");
+
+/* import Raleway */
+
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+
+/* import fira sans condensed */
+
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
+
 /* apply this font to the h1 */
 
+/* make the h1 headling look amazing */
+
 h1 {
-  font-family: "Playfair Display", serif;
-  font-size: 2.5em;
+  font-family: "Raleway", serif;
+  font-size: 3.2em;
   font-weight: 400;
-  color: #ff0000;
-  text-align: center;
+  color: #d95c3a;
   margin: 0;
   padding: 0;
 }
+/* apply raleway formatting to h4, make it pretty */
 
-/* apply this font to the h2 */
-
-h2 {
-  font-family: "Playfair Display", serif;
-  font-size: 1.5em;
+h4 {
+  font-family: "Raleway", sans-serif;
+  font-size: 1em;
   font-weight: 400;
   color: #000000;
   text-align: center;
   margin: 0;
   padding: 0;
+}
+/* apply raleway to paragraphs */
+
+p {
+  font-family: "Fira Sans", sans-serif;
+  font-size: 1.2em;
+  font-weight: 400;
+  color: #2e2e2e;
+  margin: 0;
+  padding: 0;
+}
+
+/* make the body a different color, add some great formatting */
+
+body {
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+/* make the header look great */
+
+header {
+  background-color: #ffffff;
+  padding: 1em;
+  margin: 0;
 }

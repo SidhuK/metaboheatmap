@@ -5,19 +5,18 @@ library(pheatmap)
 ui <- fluidPage(
   titlePanel(
     title = h1(
-      "ShinyHeatmap"
-      # add a css style to the title
-      # style = "color: black; font-size: 36px, sans-serif;"
+      "MetaboHeatMap"
     ),
-    windowTitle = "ShinyHeatmap"
+    windowTitle = "MetaboHeatMap by Karat Sidhu"
   ),
+  # Add CSS stylesheet
   tags$head(
     tags$link(rel = "stylesheet", type = "text/css", href = "styles.css")
   ),
   tabsetPanel(
     tabPanel(
-      h4("Instructions and Info"),
-      h4("Instructions"),
+      h2("Instructions and Info"),
+      h3("Instructions"),
       p("1. Go to the 'Data Input' tab."),
       p("2. Prepare and upload a CSV file."),
       p(
@@ -156,7 +155,7 @@ right click on the image and select 'Save Image As...' and save as a PNG file."
       )
     ),
     tabPanel(
-      h4("Heatmap"),
+      h2("Heatmap"),
       fluidRow(column(
         12,
         plotOutput("themap",
@@ -167,7 +166,7 @@ right click on the image and select 'Save Image As...' and save as a PNG file."
       ))
     ),
     tabPanel(
-      h4("Data"),
+      h2("Data"),
       fluidRow(column(
         12,
         tableOutput("tbl")
