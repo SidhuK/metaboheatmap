@@ -1,7 +1,4 @@
-/* import fira sans condensed */
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
-
-/* import Lilita One from the google api */
 @import url("https://fonts.googleapis.com/css2?family=Viga&display=swap");
 
 h1 {
@@ -16,7 +13,7 @@ h1 {
 
 h2 {
   font-family: "Viga", serif;
-  font-size: 2.5em;
+  font-size: 2.2em;
   font-weight: 700;
   color: #d95c3a;
   text-align: center;
@@ -26,7 +23,7 @@ h2 {
 
 h3 {
   font-family: "Viga", serif;
-  font-size: 2em;
+  font-size: 1.8em;
   font-weight: 700;
   color: #d95c3a;
   text-align: center;
@@ -62,7 +59,13 @@ p {
   padding: 0;
 }
 
-/* make the body a different color, add some great formatting */
+a {
+  color: #d95c3a;
+  text-decoration: none;
+  font-family: "Fira Sans", sans-serif;
+  font-size: 1.2em;
+  line-height: 1.6;
+}
 
 body {
   font-family: "Fira Sans", Helvetica, sans-serif;
@@ -73,15 +76,11 @@ body {
   border: 4px solid #d95c3a;
 }
 
-/* change the color of active class and tab*/
-
 .nav {
   background-color: #ececec;
   color: #ffffff;
   border-radius: 10px;
 }
-
-/* make the page footer awesome */
 
 .page-footer {
   border-radius: 10px;
@@ -91,6 +90,7 @@ body {
 .help-block {
   color: #d95c3a;
   text-align: center;
+  font-weight: 500;
 }
 
 .btn-primary {
@@ -103,14 +103,16 @@ body {
 .container-fluid {
   background-color: #ececec;
   border-radius: 15px;
+  border-width: 1px;
+  border-color: #2e2e2e;
 }
 
 .well {
   background-color: #f5d4cc;
   border-radius: 10px;
+  border-color: #2e2e2e;
+  border-width: 1px;
 }
-
-/* id download change and make it better */
 
 #download {
   background-color: #d95c3a;
@@ -118,4 +120,16 @@ body {
   color: #ffffff;
   text-align: center;
   padding: 10px;
+}
+
+.nav-tabs > li {
+  background: #ececec;
+  border-radius: 10px;
+}
+
+.nav-tabs > li.active > a {
+  background: #ffffff;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: #2e2e2e;
 }

@@ -136,7 +136,7 @@ ui <- fluidPage(
     actionButton(
       "get_heatmap",
       "Generate Heatmap",
-      class = "btn btn-primary"
+      class = "btn btn-primary btn-block"
     )
   ),
   mainPanel(
@@ -158,7 +158,7 @@ ui <- fluidPage(
       The user-supplied data can be viewed in its raw form in the 'Data' tab for added transparency."),
         p("The MetaboHeatmap app is hosted on both shinyapps.io and GitHub,
        providing access through a web-based platform or by downloading and
-       running the app locally through RStudio. The application can be accessed on
+       running the app locally through RStudio/VSCode or IDE of your choice. The application can be accessed on
        shinyapps.io at https://karatsidhu.shinyapps.io/metaboheatmap/ and on
        GitHub at https://github.com/sidhuk/metaboheatmap/."),
         h3("Useful Links"),
@@ -192,7 +192,7 @@ right click on the image and select 'Save Image As...' and save as a PNG file. A
             width = "1000px",
             height = "1500px"
           ),
-          downloadButton(outputId = "download", label = "Download Heatmap")
+          downloadButton(outputId = "download", label = "Download Heatmap", class = "btn btn-primary btn-block")
         ))
       ),
       tabPanel(
