@@ -89,6 +89,7 @@ ui <- fluidPage(
         green = "green",
         blue = "blue",
         yellow = "yellow",
+        grey = "grey",
         purple = "purple"
       )
     ),
@@ -101,6 +102,7 @@ ui <- fluidPage(
         green = "green",
         blue = "blue",
         yellow = "yellow",
+        grey = "grey",
         purple = "purple"
       )
     ),
@@ -112,6 +114,7 @@ ui <- fluidPage(
         green = "green",
         blue = "blue",
         yellow = "yellow",
+        grey = "grey",
         purple = "purple"
       )
     ),
