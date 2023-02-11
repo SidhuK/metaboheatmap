@@ -1,0 +1,10 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Sidhu
+    given-names: Karatatiwant Singh Sidhu
+    orcid: https://orcid.org/0000-0002-8769-0926
+title: SidhuK/metaboheatmap: Version 1.0
+version: Shiny_1
+date-released: 2023-02-11
+            
