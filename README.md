@@ -129,23 +129,16 @@ If you use this app in your research, please use the following citation:
 
 ```bibtex
 
-@misc{MetaboHeatMap,
-  author = {Sidhu, Karatatiwant Singh},
-  title = {MetaboHeatMap: A R/Shiny based app for visualizing metabolomics data through heatmaps},
-  year = {2023},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{github.com/sidhuK/MetaboHeatMap}}
-  
-  cff-version: 1.1.0
-message: "If you use this software, please cite it as below."
-authors:
-  - family-names: Sidhu
-    given-names: Karatatiwant Singh Sidhu
-    orcid: https://orcid.org/0000-0002-8769-0926
-title: SidhuK/metaboheatmap: Version 1.0
-version: Shiny_1
-date-released: 2023-02-11
+@software{karat_sidhu_2023_7631526,
+  author       = {Karatatiwant Singh Sidhu},
+  title        = {SidhuK/metaboheatmap: Version 1.0},
+  month        = feb,
+  year         = 2023,
+  publisher    = {Zenodo},
+  version      = {Shiny\_1},
+  doi          = {10.5281/zenodo.7631526},
+  url          = {https://doi.org/10.5281/zenodo.7631526}
+}
 
 ```
 
