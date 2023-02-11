@@ -2,7 +2,9 @@
 
 ## A R/Shiny based app for visualizing metabolomics data through heatmaps
 
-![GitHub last commit](https://img.shields.io/github/last-commit/sidhuk/metaboheatmap)
+![GitHub last commit](https://img.shields.io/github/last-commit/sidhuk/metaboheatmap) [![DOI](https://zenodo.org/badge/599972370.svg)](https://zenodo.org/badge/latestdoi/599972370)
+
+
 
 Available online at [here](https://karat.shinyapps.io/MetaboHeatMap/) or locally using the source code in this repository.
 
@@ -134,6 +136,16 @@ If you use this app in your research, please use the following citation:
   publisher = {GitHub},
   journal = {GitHub repository},
   howpublished = {\url{github.com/sidhuK/MetaboHeatMap}}
+  
+  cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+  - family-names: Sidhu
+    given-names: Karatatiwant Singh Sidhu
+    orcid: https://orcid.org/0000-0002-8769-0926
+title: SidhuK/metaboheatmap: Version 1.0
+version: Shiny_1
+date-released: 2023-02-11
 
 ```
 
