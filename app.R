@@ -7,7 +7,7 @@ ui <- fluidPage(
     title = div(h3(
       "MetaboHeatMap"
     ), h5("A R/Shiny based app for visualizing metabolomics data through heatmaps")),
-    windowTitle = "MetaboHeatMap by Karat Sidhu"
+    windowTitle = "MetaboHeatMap"
   ),
   # Add CSS stylesheet
   tags$head(
