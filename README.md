@@ -1,2 +1,3 @@
-# metaboheatmap
- Shiny and R based heatmap application
+# MetaboHeatMap
+
+## A R/Shiny based app for visualizing metabolomics data through heatmaps
