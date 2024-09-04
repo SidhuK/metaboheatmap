@@ -146,7 +146,6 @@ If you use this app in your research, please use the following citation:
 
 This app is still in development and is not yet complete. The following features are planned for future releases:
 
-- [ ] Annotations
 - [ ] Data Filtering
 - [ ] Data Normalization
 - [ ] Font Size

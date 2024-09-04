@@ -1,5 +1,7 @@
 library(shiny)
 library(pheatmap)
+library(RColorBrewer)
+library(viridis)
 
 # Define UI for application that draws a heatmap
 ui <- fluidPage(
@@ -81,43 +83,6 @@ ui <- fluidPage(
         No = "FALSE"
       )
     ),
-    selectInput(
-      "palette_start",
-      "Lowest Value Color",
-      c(
-        red = "red",
-        green = "green",
-        blue = "blue",
-        yellow = "yellow",
-        grey = "grey",
-        purple = "purple"
-      )
-    ),
-    selectInput(
-      "palette_mid",
-      "Middle Value Color (optional)",
-      c(
-        None = "white",
-        red = "red",
-        green = "green",
-        blue = "blue",
-        yellow = "yellow",
-        grey = "grey",
-        purple = "purple"
-      )
-    ),
-    selectInput(
-      "palette_end",
-      "Highest Value Color",
-      c(
-        red = "red",
-        green = "green",
-        blue = "blue",
-        yellow = "yellow",
-        grey = "grey",
-        purple = "purple"
-      )
-    ),
     h4("Slice Rows and Columns"),
     sliderInput(
       "cutree_rows",
@@ -135,7 +100,18 @@ ui <- fluidPage(
       value = 0,
       step = 1
     ),
-    h4("Get Heatmap"),
+    numericInput("filter_threshold", "Filter threshold (absolute value)", value = 0, min = 0),
+    selectInput("normalization", "Data Normalization",
+                choices = c("None" = "none", "Z-score" = "zscore", "Min-Max" = "minmax")),
+    sliderInput("font_size", "Font Size", min = 6, max = 20, value = 10),
+    selectInput("color_scheme", "Color Scheme",
+                choices = c("Red-White-Blue" = "RdBu",
+                            "Red-Yellow-Green" = "RdYlGn",
+                            "Purple-Orange" = "PuOr",
+                            "Viridis" = "viridis",
+                            "Magma" = "magma")),
+    selectInput("font_color", "Font Color",
+                choices = c("Black" = "black", "White" = "white", "Red" = "red", "Blue" = "blue")),
     actionButton(
       "get_heatmap",
       "Generate Heatmap",
@@ -215,23 +191,30 @@ right click on the image and select 'Save Image As...' and save as a PNG file. A
 server <- function(input, output, session) {
   df <- reactive({
     inFile <- input$file
-    if (is.null(inFile)) {
-      return(NULL)
-    }
+    if (is.null(inFile)) return(NULL)
     tbl <- read.csv(inFile$datapath, header = input$header)
+    
+    # Data Filtering
+    if (input$filter_threshold > 0) {
+      tbl <- tbl[rowSums(abs(tbl[,-1]) >= input$filter_threshold) > 0, ]
+    }
+    
+    # Data Normalization
+    if (input$normalization != "none") {
+      normalize <- function(x) {
+        if (input$normalization == "zscore") {
+          return((x - mean(x)) / sd(x))
+        } else if (input$normalization == "minmax") {
+          return((x - min(x)) / (max(x) - min(x)))
+        }
+      }
+      tbl[,-1] <- apply(tbl[,-1], 2, normalize)
+    }
+    
     return(tbl)
   })
 
-
-
-  # Generate the table output
-
-  output$tbl <- renderTable({
-    df()
-  })
-
-
-  # Create a reactive expression to generate the heatmap data
+  output$tbl <- renderTable({ df() })
 
   data <- eventReactive(input$get_heatmap, {
     mat <- as.matrix(df()[-1])
@@ -240,70 +223,40 @@ server <- function(input, output, session) {
     mat
   })
 
-
-  # Code to generate the heatmap from the options selected
   output$themap <- renderPlot({
+    req(data())
+    
+    # Color scheme
+    if (input$color_scheme %in% c("viridis", "magma")) {
+      color_func <- get(input$color_scheme)
+      colors <- color_func(100)
+    } else {
+      colors <- colorRampPalette(rev(brewer.pal(n = 7, name = input$color_scheme)))(100)
+    }
+    
     pheatmap(
       data(),
       cluster_rows = as.logical(input$cluster_rows),
       cluster_cols = as.logical(input$cluster_cols),
       clustering_distance_rows = input$row_method,
-      display_numbers = as.logical(input$display_numbers),
-      number_color = "black",
-      color = colorRampPalette(
-        c(
-          input$palette_start,
-          input$palette_mid,
-          input$palette_end
-        )
-      )(100),
       clustering_distance_cols = input$col_method,
       cutree_rows = ifelse(input$cutree_rows == 0, 1, input$cutree_rows + 1),
       cutree_cols = ifelse(input$cutree_cols == 0, 1, input$cutree_cols + 1),
-      fontsize_row = 10,
+      display_numbers = as.logical(input$display_numbers),
+      number_color = input$font_color,
+      fontsize = input$font_size,
+      fontsize_number = input$font_size,
+      color = colors,
       border_color = "black",
-      border_width = 1
+      main = "Metabolomics Heatmap"
     )
   })
 
-
-  # Download button code to save the heatmap as a PNG file
   output$download <- downloadHandler(
-    filename = function() {
-      paste0("meataboheatmap", Sys.Date(), ".png")
-    },
+    filename = function() { paste0("metaboheatmap_", Sys.Date(), ".png") },
     content = function(file) {
-      # Save the plot as a PNG file
-      png(file,
-        width = 1500,
-        height = 2000,
-        units = "px"
-      )
-
-      # Generate the heatmap
-      pheatmap(
-        data(),
-        cluster_rows = as.logical(input$cluster_rows),
-        cluster_cols = as.logical(input$cluster_cols),
-        clustering_distance_rows = input$row_method,
-        display_numbers = as.logical(input$display_numbers),
-        number_color = "black",
-        color = colorRampPalette(
-          c(
-            input$palette_start,
-            input$palette_mid,
-            input$palette_end
-          )
-        )(100),
-        clustering_distance_cols = input$col_method,
-        cutree_rows = ifelse(input$cutree_rows == 0, 1, input$cutree_rows + 1),
-        cutree_cols = ifelse(input$cutree_cols == 0, 1, input$cutree_cols + 1),
-        fontsize_row = 10,
-        border_color = "black",
-        border_width = 1
-      )
-
-      # Close the PNG file
+      png(file, width = 1500, height = 2000, units = "px", res = 300)
+      print(output$themap())
       dev.off()
     }
   )

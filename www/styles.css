@@ -1,135 +1,134 @@
-@import url("https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Viga&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-h1 {
-  font-family: "Viga", serif;
-  font-size: 3.2em;
-  font-weight: 700;
-  color: #d95c3a;
-  text-align: center;
-  margin: 0;
-  padding: 10px;
-}
-
-h2 {
-  font-family: "Viga", serif;
-  font-size: 2.2em;
-  font-weight: 700;
-  color: #d95c3a;
-  text-align: center;
-  margin: 0;
-  padding: 5px;
-}
-
-h3 {
-  font-family: "Viga", serif;
-  font-size: 1.8em;
-  font-weight: 700;
-  color: #d95c3a;
-  text-align: center;
-  margin: 5px;
-  padding: 5px;
-}
-
-h4 {
-  font-family: "Viga", serif;
-  font-size: 1.5em;
-  font-weight: 500;
-  color: #d95c3a;
-  margin: 0;
-  padding: 0;
-}
-
-h5 {
-  font-family: "Viga", serif;
-  color: #905444;
-  text-align: center;
-  margin: 0;
-  padding: 0;
-}
-
-p {
-  font-family: "Fira Sans", sans-serif;
-  font-size: 1.2em;
-  line-height: 1.6;
-  text-align: justify;
-  font-weight: 400;
-  color: #2e2e2e;
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  color: #d95c3a;
-  text-decoration: none;
-  font-family: "Fira Sans", sans-serif;
-  font-size: 1.2em;
-  line-height: 1.6;
+:root {
+  --primary-color: #2eaadc;
+  --text-color: #37352f;
+  --background-color: #ffffff;
+  --secondary-background: #f7f6f3;
+  --border-color: #e0e0e0;
 }
 
 body {
-  font-family: "Fira Sans", Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1.5;
-  color: #666;
+  color: var(--text-color);
   margin: 0;
-  padding: 2em;
-  border: 4px solid #d95c3a;
+  padding: 0;
+  background-color: var(--background-color);
 }
 
-.nav {
-  background-color: #ececec;
-  color: #ffffff;
-  border-radius: 10px;
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 0.5em;
 }
 
-.page-footer {
-  border-radius: 10px;
-  text-align: center;
+h1 {
+  font-size: 2.5em;
 }
 
-.help-block {
-  color: #d95c3a;
-  text-align: center;
-  font-weight: 500;
+h2 {
+  font-size: 2em;
 }
 
-.btn-primary {
-  background-color: #d95c3a;
-  border-color: #d95c3a;
-  align-items: center;
-  border-radius: 10px;
+h3 {
+  font-size: 1.75em;
+}
+
+h4 {
+  font-size: 1.5em;
+}
+
+h5 {
+  font-size: 1.25em;
+}
+
+p {
+  font-size: 1em;
+  line-height: 1.6;
+  color: var(--text-color);
+  margin-bottom: 1em;
+}
+
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 .container-fluid {
-  background-color: #ececec;
-  border-radius: 15px;
-  border-width: 1px;
-  border-color: #2e2e2e;
+  background-color: var(--secondary-background);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 2em;
+  margin-bottom: 2em;
 }
 
 .well {
-  background-color: #f5d4cc;
-  border-radius: 10px;
-  border-color: #2e2e2e;
-  border-width: 1px;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  padding: 1.5em;
+  margin-bottom: 1.5em;
 }
 
-#download {
-  background-color: #d95c3a;
-  border-radius: 10px;
-  color: #ffffff;
-  text-align: center;
-  padding: 10px;
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
 }
 
-.nav-tabs > li {
-  background: #ececec;
-  border-radius: 10px;
+.btn-primary:hover {
+  background-color: darken(var(--primary-color), 10%);
+}
+
+.nav-tabs {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.nav-tabs > li > a {
+  border: none;
+  color: var(--text-color);
+  background-color: transparent;
+  transition: color 0.3s ease;
+}
+
+.nav-tabs > li > a:hover {
+  color: var(--primary-color);
 }
 
 .nav-tabs > li.active > a {
-  background: #ffffff;
-  border-radius: 10px;
-  border-width: 1px;
-  border-color: #2e2e2e;
+  color: var(--primary-color);
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+  border-bottom-color: transparent;
+}
+
+#download {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75em 1.5em;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+#download:hover {
+  background-color: darken(var(--primary-color), 10%);
+}
+
+.page-footer {
+  text-align: center;
+  padding: 1em 0;
+  background-color: var(--secondary-background);
+  color: var(--text-color);
+  font-size: 0.9em;
 }
