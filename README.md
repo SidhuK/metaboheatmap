@@ -4,8 +4,6 @@
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/sidhuk/metaboheatmap) [![DOI](https://zenodo.org/badge/599972370.svg)](https://zenodo.org/badge/latestdoi/599972370)
 
-
-
 Available online at [here](https://karat.shinyapps.io/MetaboHeatMap/) or locally using the source code in this repository.
 
 ![MetaboHeatMap](img/homepage.jpg)
@@ -16,7 +14,6 @@ _The Shiny App Home Page_
 MetaboHeatMap is a R/Shiny based app for visualizing metabolomics data through heatmaps. **It is designed specifically to be used for small to medium sized metabolomics datasets (<=500 compounds for best results)** .Ideally, the data is normalized and filtered before being used in the app. The app can be used in two ways:
 
 1. **Online**: The app is available online at [here](https://karat.shinyapps.io/MetaboHeatMap/). The app is hosted on a free account and may be slow at times. The app is also limited to 25 concurrent users. If you are unable to access the app, please try again later, or contact me on [Twitter](https://twitter.com/karat_sidhu) or [Mastodon](https://mas.to/@karat) and I will try my best to resolve the issue.
-
 2. **Locally**: The app can be run locally using the source code in this repository. Any IDE configured to run R/Shiny apps can be used.
 
 ## Example Heatmaps
@@ -59,13 +56,9 @@ The data must be in the following format:
 
 - The first column must be named 'compound' and contain the names of the compounds/metabolites. The names of the compounds must be unique,
   and the column heading is case sensitive.
-
 - The first row must be named 'sample' and contain the names of the samples. The names of the samples must be unique,
-
 - The remaining cells must contain the values of the metabolites for each sample. _The values must be numeric._
-
 - The data must be in a rectangular format. That is, the number of columns must be equal to the number of samples, and the number of rows must be equal to the number of compounds/metabolites.
-
 - For best results, the data should be normalized and filtered before being used in the app. The app does not perform any normalization or filtering on the data.
 
 ### Data Upload
@@ -93,7 +86,6 @@ git clone https://github.com/SidhuK/metaboheatmap
 or download the repository as a zip file and extract it.
 
 2. Open the project in RStudio or any other IDE configured to run R/Shiny apps.
-
 3. Install the required packages using the following command:
 
 ```r
@@ -107,9 +99,7 @@ shiny::runApp()
 ```
 
 5. The app will be available locally and can be accessed using the URL provided in the R console.
-
 6. Once the app starts, upload the data and proceed according to the instructions in the Usage section.
-
 7. To stop the app, press the 'Stop' button in the R console or simply close the R console.
 
 ## License
@@ -144,13 +134,22 @@ If you use this app in your research, please use the following citation:
 
 ### Planned Features
 
-This app is still in development and is not yet complete. The following features are planned for future releases:
+The development of this app is an ongoing process. New features are being added regularly to enhance the user experience and provide more insights into the data. The following features are currently in development:
 
-- [ ] Data Filtering
-- [ ] Data Normalization
-- [ ] Font Size
-- [ ] More Color Schemes
-- [ ] Font Colors
+- **Data Preprocessing**: The app will include data preprocessing steps to handle missing values, outliers, and data normalization.
+- **Data Integration**: The app will allow users to integrate their data with other datasets or databases to enable more comprehensive analysis.
+- **Documentation and Tutorials**: Comprehensive documentation and tutorials will be provided to help users understand how to use the app effectively.
+
+
+These features are expected to be added in the coming months, depending on the availability of time and resources.
+
+
+
+
+
+
+
+
 
 The list of planned features is not exhaustive and may be updated at any time.
 
