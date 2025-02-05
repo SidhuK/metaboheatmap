@@ -102,16 +102,21 @@ ui <- fluidPage(
     ),
     numericInput("filter_threshold", "Filter threshold (absolute value)", value = 0, min = 0),
     selectInput("normalization", "Data Normalization",
-                choices = c("None" = "none", "Z-score" = "zscore", "Min-Max" = "minmax")),
+      choices = c("None" = "none", "Z-score" = "zscore", "Min-Max" = "minmax")
+    ),
     sliderInput("font_size", "Font Size", min = 6, max = 20, value = 10),
     selectInput("color_scheme", "Color Scheme",
-                choices = c("Red-White-Blue" = "RdBu",
-                            "Red-Yellow-Green" = "RdYlGn",
-                            "Purple-Orange" = "PuOr",
-                            "Viridis" = "viridis",
-                            "Magma" = "magma")),
+      choices = c(
+        "Red-White-Blue" = "RdBu",
+        "Red-Yellow-Green" = "RdYlGn",
+        "Purple-Orange" = "PuOr",
+        "Viridis" = "viridis",
+        "Magma" = "magma"
+      )
+    ),
     selectInput("font_color", "Font Color",
-                choices = c("Black" = "black", "White" = "white", "Red" = "red", "Blue" = "blue")),
+      choices = c("Black" = "black", "White" = "white", "Red" = "red", "Blue" = "blue")
+    ),
     actionButton(
       "get_heatmap",
       "Generate Heatmap",
@@ -189,32 +194,66 @@ right click on the image and select 'Save Image As...' and save as a PNG file. A
 )
 
 server <- function(input, output, session) {
+  # Create reactive values for caching
+  rv <- reactiveValues(
+    cached_data = NULL,
+    last_settings = NULL
+  )
+
   df <- reactive({
     inFile <- input$file
-    if (is.null(inFile)) return(NULL)
-    tbl <- read.csv(inFile$datapath, header = input$header)
-    
-    # Data Filtering
-    if (input$filter_threshold > 0) {
-      tbl <- tbl[rowSums(abs(tbl[,-1]) >= input$filter_threshold) > 0, ]
+    if (is.null(inFile)) {
+      return(NULL)
     }
-    
-    # Data Normalization
-    if (input$normalization != "none") {
-      normalize <- function(x) {
-        if (input$normalization == "zscore") {
-          return((x - mean(x)) / sd(x))
-        } else if (input$normalization == "minmax") {
-          return((x - min(x)) / (max(x) - min(x)))
+
+    # Validate file input
+    validate(
+      need(tools::file_ext(inFile$name) == "csv", "Please upload a CSV file"),
+      need(file.size(inFile$datapath) > 0, "The uploaded file is empty")
+    )
+
+    # Show progress while reading file
+    withProgress(message = "Reading data...", value = 0.3, {
+      tryCatch(
+        {
+          tbl <- read.csv(inFile$datapath, header = input$header)
+
+          # Validate data structure
+          validate(
+            need(ncol(tbl) > 1, "Data must have at least 2 columns"),
+            need(nrow(tbl) > 0, "Data must have at least 1 row")
+          )
+
+          # Data Filtering
+          if (input$filter_threshold > 0) {
+            tbl <- tbl[rowSums(abs(tbl[, -1]) >= input$filter_threshold) > 0, ]
+          }
+
+          # Data Normalization
+          if (input$normalization != "none") {
+            normalize <- function(x) {
+              if (input$normalization == "zscore") {
+                return((x - mean(x)) / sd(x))
+              } else if (input$normalization == "minmax") {
+                return((x - min(x)) / (max(x) - min(x)))
+              }
+            }
+            tbl[, -1] <- apply(tbl[, -1], 2, normalize)
+          }
+
+          incProgress(0.7)
+          return(tbl)
+        },
+        error = function(e) {
+          stop(paste("Error reading file:", e$message))
         }
-      }
-      tbl[,-1] <- apply(tbl[,-1], 2, normalize)
-    }
-    
-    return(tbl)
+      )
+    })
   })
 
-  output$tbl <- renderTable({ df() })
+  output$tbl <- renderTable({
+    df()
+  })
 
   data <- eventReactive(input$get_heatmap, {
     mat <- as.matrix(df()[-1])
@@ -225,39 +264,69 @@ server <- function(input, output, session) {
 
   output$themap <- renderPlot({
     req(data())
-    
-    # Color scheme
-    if (input$color_scheme %in% c("viridis", "magma")) {
-      color_func <- get(input$color_scheme)
-      colors <- color_func(100)
-    } else {
-      colors <- colorRampPalette(rev(brewer.pal(n = 7, name = input$color_scheme)))(100)
-    }
-    
-    pheatmap(
-      data(),
-      cluster_rows = as.logical(input$cluster_rows),
-      cluster_cols = as.logical(input$cluster_cols),
-      clustering_distance_rows = input$row_method,
-      clustering_distance_cols = input$col_method,
-      cutree_rows = ifelse(input$cutree_rows == 0, 1, input$cutree_rows + 1),
-      cutree_cols = ifelse(input$cutree_cols == 0, 1, input$cutree_cols + 1),
-      display_numbers = as.logical(input$display_numbers),
-      number_color = input$font_color,
-      fontsize = input$font_size,
-      fontsize_number = input$font_size,
-      color = colors,
-      border_color = "black",
-      main = "Metabolomics Heatmap"
-    )
+
+    withProgress(message = "Generating heatmap...", value = 0.1, {
+      # Cache check to avoid unnecessary recomputation
+      current_settings <- list(
+        input$cluster_rows, input$cluster_cols, input$row_method,
+        input$col_method, input$cutree_rows, input$cutree_cols,
+        input$display_numbers, input$font_color, input$font_size,
+        input$color_scheme
+      )
+
+      if (!identical(rv$last_settings, current_settings) || is.null(rv$cached_data)) {
+        # Color scheme
+        if (input$color_scheme %in% c("viridis", "magma")) {
+          color_func <- get(input$color_scheme)
+          colors <- color_func(100)
+        } else {
+          colors <- colorRampPalette(rev(brewer.pal(n = 7, name = input$color_scheme)))(100)
+        }
+
+        incProgress(0.4)
+
+        rv$cached_data <- pheatmap(
+          data(),
+          cluster_rows = as.logical(input$cluster_rows),
+          cluster_cols = as.logical(input$cluster_cols),
+          clustering_distance_rows = input$row_method,
+          clustering_distance_cols = input$col_method,
+          cutree_rows = ifelse(input$cutree_rows == 0, 1, input$cutree_rows + 1),
+          cutree_cols = ifelse(input$cutree_cols == 0, 1, input$cutree_cols + 1),
+          display_numbers = as.logical(input$display_numbers),
+          number_color = input$font_color,
+          fontsize = input$font_size,
+          fontsize_number = input$font_size,
+          color = colors,
+          border_color = "black",
+          main = "Metabolomics Heatmap"
+        )
+
+        rv$last_settings <- current_settings
+      }
+
+      incProgress(0.5)
+      return(rv$cached_data)
+    })
   })
 
   output$download <- downloadHandler(
-    filename = function() { paste0("metaboheatmap_", Sys.Date(), ".png") },
+    filename = function() {
+      paste0("metaboheatmap_", format(Sys.time(), "%Y%m%d_%H%M%S"), ".png")
+    },
     content = function(file) {
-      png(file, width = 1500, height = 2000, units = "px", res = 300)
-      print(output$themap())
-      dev.off()
+      withProgress(message = "Preparing download...", value = 0.1, {
+        tryCatch(
+          {
+            png(file, width = 1500, height = 2000, units = "px", res = 300)
+            print(rv$cached_data)
+            dev.off()
+          },
+          error = function(e) {
+            stop(paste("Error saving heatmap:", e$message))
+          }
+        )
+      })
     }
   )
 }
