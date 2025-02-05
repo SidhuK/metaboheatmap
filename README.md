@@ -26,6 +26,13 @@ This R/Shiny based app is designed to be used for visualizing metabolomics data 
 In its current release, the app has the following features:
 
 - **Heatmap Generation**: The app can be used to generate heatmaps from metabolomics data.
+- **Data Processing**:
+  - **Data Validation**: Automatic validation of input files and data structure
+  - **Data Filtering**: Option to filter data based on threshold values
+  - **Data Normalization**: Support for z-score and min-max normalization
+- **Performance Optimization**:
+  - **Caching System**: Intelligent caching to avoid unnecessary recomputation
+  - **Progress Indicators**: Visual feedback for long-running operations
 - **Clustering**: The app can be used to cluster the samples and compounds/metabolites in the heatmap.
   - The major clustering algorithms supported by the app are:
     - **Correlation**
@@ -36,11 +43,14 @@ In its current release, the app has the following features:
     - **Binary**
   - **Sample Clustering**: The app can be used to cluster the samples in the heatmap.
   - **Compound Clustering**: The app can also be used to cluster the compounds/metabolites in the heatmap.
-- **Color Schemes**: The app can be used to select the color scheme for the heatmap.
-- **Heatmap Size**: The app can be used to select the size of the heatmap.
-- **Display Cell Values**: The app can be used to display the values corresponding to each cell in the heatmap.
-- **Download Heatmap**: The app can be used to download the heatmap as a high quality PNG image.
-- **Heatmap Legend**: The app can be used to display the legend for the heatmap.
+- **Visualization Options**:
+  - **Color Schemes**: Multiple color palettes including viridis and magma
+  - **Heatmap Size**: Customizable heatmap dimensions
+  - **Display Cell Values**: Option to show numerical values in cells
+  - **Font Customization**: Adjustable font sizes and colors
+- **Export Features**:
+  - **High-Quality Downloads**: PNG export with timestamp-based naming
+  - **Customizable Resolution**: 300 DPI export for publication-ready figures
 
 Additionally, the app has some custom **CSS Formatting** to ensure it is responsive and can be used on any device with a web browser, including mobile devices, although desktops are recommended for best results.
 
@@ -50,9 +60,19 @@ Before starting the app, the data must be preprocessed and uploaded to the app.
 
 ### Data Preprocessing
 
-The sample data provided in this repository and is a randomly generated dataset. The data is in the form of a comma-separated (CSV) text file and it is the only file format that is supported by the app for now.
+The app now includes built-in data preprocessing capabilities:
 
-The data must be in the following format:
+- **Validation**: Automatic checks for:
+  - File format (CSV only)
+  - Data structure integrity
+  - Non-empty files
+  - Minimum required dimensions
+- **Filtering**: Option to remove low-value compounds based on threshold
+- **Normalization**: Two normalization methods available:
+  - Z-score normalization
+  - Min-max scaling
+
+The sample data provided in this repository is a randomly generated dataset. The data must be in CSV format with the following structure:
 
 - The first column must be named 'compound' and contain the names of the compounds/metabolites. The names of the compounds must be unique,
   and the column heading is case sensitive.
@@ -136,23 +156,28 @@ If you use this app in your research, please use the following citation:
 
 The development of this app is an ongoing process. New features are being added regularly to enhance the user experience and provide more insights into the data. The following features are currently in development:
 
-- **Data Preprocessing**: The app will include data preprocessing steps to handle missing values, outliers, and data normalization.
-- **Data Integration**: The app will allow users to integrate their data with other datasets or databases to enable more comprehensive analysis.
-- **Documentation and Tutorials**: Comprehensive documentation and tutorials will be provided to help users understand how to use the app effectively.
-
+- **Advanced Data Preprocessing**: Additional normalization methods and filtering options
+- **Batch Processing**: Support for processing multiple datasets simultaneously
+- **Export Options**: Additional export formats (PDF, SVG)
+- **Data Integration**: Integration with metabolomics databases
+- **Interactive Features**: Click-and-zoom functionality for detailed analysis
+- **Documentation and Tutorials**: Comprehensive documentation and tutorials
 
 These features are expected to be added in the coming months, depending on the availability of time and resources.
-
-
-
-
-
-
-
-
 
 The list of planned features is not exhaustive and may be updated at any time.
 
 ## Contact
 
 If you have any questions or suggestions, please contact me on [Twitter](https://twitter.com/karat_sidhu) or [Mastodon](https://mas.to/@karat). You can also open an issue on the [GitHub Repository](https://github.com/sidhuK/MetaboHeatMap).
+
+## Error Handling
+
+The app includes robust error handling for:
+
+- File upload issues
+- Data format problems
+- Processing errors
+- Download failures
+
+Users will receive clear error messages and suggestions for resolution when issues occur.
