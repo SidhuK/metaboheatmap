@@ -1,0 +1,43 @@
+{
+  "name": "metaboheatmap",
+  "version": "1.0.0",
+  "description": "Metabolomics Data Visualization Tool",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "com.karatsidhu.metaboheatmap",
+    "productName": "MetaboHeatMap",
+    "mac": {
+      "category": "public.app-category.scientific",
+      "icon": "build/icon.icns",
+      "target": [
+        "dmg"
+      ],
+      "darkModeSupport": true,
+      "extraResources": [
+        {
+          "from": "R-Portable",
+          "to": "R"
+        },
+        {
+          "from": "app.R",
+          "to": "app/app.R"
+        },
+        {
+          "from": "www",
+          "to": "app/www"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^24.3.0",
+    "electron-builder": "^24.3.0",
+    "electron-is-dev": "^2.0.0"
+  }
+}

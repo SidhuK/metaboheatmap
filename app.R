@@ -3,12 +3,19 @@ library(pheatmap)
 library(RColorBrewer)
 library(viridis)
 
+# Add these lines at the top after the library imports
+options(shiny.port = 3838)
+options(browser = function(url) {
+  NULL
+})
+
 # Define UI for application that draws a heatmap
 ui <- fluidPage(
   titlePanel(
-    title = div(h3(
-      "MetaboHeatMap"
-    ), h5("A R/Shiny based app for visualizing metabolomics data through heatmaps")),
+    title = div(
+      h3("MetaboHeatMap", style = "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI';"),
+      h5("Metabolomics Data Visualization Tool", style = "font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI';")
+    ),
     windowTitle = "MetaboHeatMap"
   ),
   # Add CSS stylesheet
@@ -334,3 +341,8 @@ server <- function(input, output, session) {
 
 # Run the application
 shinyApp(ui, server)
+
+# Add this at the very end after shinyApp(ui, server)
+if (Sys.getenv("ELECTRON_RUN") == "1") {
+  electron::run()
+}
